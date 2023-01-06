@@ -1,0 +1,32 @@
+.card {
+	border: 1px solid silver;
+	margin: 10px 0;
+	&__title {
+		color: #10286c;
+	}
+
+	&__link {
+		text-decoration: none;
+	}
+
+	&__card_block {
+		display: flex;
+	}
+
+	&__right_part-block {
+		padding-left: 40px;
+		div {
+			display: flex;
+			&:first-child {
+				p {
+					padding-top: 12px;
+				}
+			}
+		}
+
+		img {
+			margin-top: 15px;
+			width: 55px;
+		}
+	}
+}
