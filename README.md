@@ -1,1 +1,1 @@
-## npm install
+## В терминале вбиваем -> # 1) npm install
