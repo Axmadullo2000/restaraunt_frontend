@@ -1,42 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import search from '../../assets/search.svg'
 import crosschair from '../../assets/crosshair.svg'
 import locate from '../../assets/location.svg'
 
 import Header from '../../components/Header'
-import { Card } from '../../components/Card'
-import usePagination from '../../components/Pagination'
+import { myContext } from '../../context/Context'
+import CardList from '../../components/CardList'
 
 import './HomePage.scss'
 
 const HomePage = () => {
 	const [searchItem, setSearchItem] = useState('')
-	const [restaurantData, setRestaurantData] = useState([])
+	const { state, dispatch } = useContext(myContext)
 
-	const handleSubmit = e => {
+	const handleSubmit = async e => {
 		e.preventDefault()
-		fetch('http://127.0.0.1:8000/api/restorans/func/')
-			.then(res => res.json())
-			.then(data => setRestaurantData(data))
+
+		if (!searchItem) {
+			const res = await fetch('http://127.0.0.1:8000/api/restorans/func/')
+			const json = await res.json()
+			dispatch({ type: 'ADD_NEW_DATA', payload: json })
+		} else {
+			const searched = state.restaurantData.filter(item =>
+				item.name.toLowerCase().includes(searchItem.toLowerCase())
+			)
+			dispatch({ type: 'ADD_NEW_DATA', payload: searched })
+		}
 	}
-
-	const resultData = restaurantData.filter(item =>
-		item.name.toLocaleUpperCase().includes(searchItem.toLocaleUpperCase())
-	)
-
-	const {
-		firstContentIndex,
-		lastContentIndex,
-		nextPage,
-		prevPage,
-		page,
-		setPage,
-		totalPages,
-	} = usePagination({
-		contentPerPage: 3,
-		count: resultData.length,
-	})
 
 	return (
 		<div className='container'>
@@ -45,6 +36,8 @@ const HomePage = () => {
 			<h2 className='restaraunts_title'>
 				Рестораны и кафе в Москве - поиск заведений
 			</h2>
+
+			{/* search box */}
 			<div className='search_block'>
 				<form onSubmit={handleSubmit}>
 					<img
@@ -80,34 +73,8 @@ const HomePage = () => {
 				</div>
 			</div>
 
-			<div>
-				{resultData.slice(firstContentIndex, lastContentIndex).map(item => (
-					<Card key={item.id} item={item} />
-				))}
-			</div>
-
-			{totalPages - page >= 0 && (
-				<div className='pagination'>
-					<p className='text'>
-						{page}/{totalPages}
-					</p>
-					<button onClick={prevPage} className='page'>
-						&larr;
-					</button>
-					{[...Array(totalPages).keys()].map(el => (
-						<button
-							onClick={() => setPage(el + 1)}
-							key={el}
-							className={`page ${page === el + 1 ? 'active' : ''}`}
-						>
-							{el + 1}
-						</button>
-					))}
-					<button onClick={nextPage} className='page'>
-						&rarr;
-					</button>
-				</div>
-			)}
+			{/* Card List */}
+			<CardList />
 		</div>
 	)
 }

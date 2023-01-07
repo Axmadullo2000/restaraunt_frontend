@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
+import { Provider } from './context/Context'
 import App from './App'
 
 import './index.css'
@@ -12,10 +13,10 @@ if (app != null) {
 	const root = ReactDOM.createRoot(app)
 
 	root.render(
-		<React.StrictMode>
+		<Provider>
 			<Router>
 				<App />
 			</Router>
-		</React.StrictMode>
+		</Provider>
 	)
 }

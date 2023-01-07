@@ -7,6 +7,7 @@ import time from '../../assets/time.svg'
 import './Card.scss'
 
 export const Card = ({ item }) => {
+
 	return (
 		<div key={item.id} className='card'>
 			<h3 className='card__title'>
@@ -14,7 +15,6 @@ export const Card = ({ item }) => {
 					{item.name}
 				</a>
 			</h3>
-			<p></p>
 			<div className='card__card_block'>
 				<img src={item.photo_one} width={320} alt='' />
 				<div className='card__right_part-block'>
