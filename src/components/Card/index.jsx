@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import location from '../../assets/location.svg'
 import typeCook from '../../assets/typeCook.svg'
@@ -11,9 +12,9 @@ export const Card = ({ item }) => {
 	return (
 		<div key={item.id} className='card'>
 			<h3 className='card__title'>
-				<a href='' className='card__link'>
+				<Link to='' className='card__link'>
 					{item.name}
-				</a>
+				</Link>
 			</h3>
 			<div className='card__card_block'>
 				<img src={item.photo_one} width={320} alt='' />
@@ -32,7 +33,7 @@ export const Card = ({ item }) => {
 
 					<div>
 						<img src={time} width='25' height={22} alt='' />
-						<p>{'Сегодня c 10:00 до 23:00'}</p>
+						<p>{item.time}</p>
 					</div>
 				</div>
 			</div>
